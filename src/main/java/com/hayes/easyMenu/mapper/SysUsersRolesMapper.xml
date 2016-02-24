@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hayes.easyMenu.dao.SysUsersRolesDao">
+	<resultMap id="sysUsersRolesResult" type="sysUsersRoles">
+		<result property="id" column="id" />
+		<result property="uid" column="uid" />
+		<result property="rid" column="rid" />
+		<result property="status" column="status" />
+	</resultMap>
+
+	<sql id="sysUsersRolesWhere">
+		<if test="id != null">      	
+        <![CDATA[and id like concat('%',#{id},'%') ]]>
+		</if>
+		<if test="uid != null">      	
+        <![CDATA[and uid like concat('%',#{uid},'%') ]]>
+		</if>
+		<if test="rid != null">      	
+        <![CDATA[and rid like concat('%',#{rid},'%') ]]>
+		</if>
+		<if test="status != null">      	
+        <![CDATA[and status like concat('%',#{status},'%') ]]>
+		</if>
+	</sql>
+
+	<sql id="sysUsersRolesColumn">
+		id,uid,rid,status
+  </sql>
+
+	<select id="loadSysUsersRoles" resultMap="sysUsersRolesResult"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="sysUsersRolesColumn" />
+		from sys_users_roles
+		where id=#{value}
+	</select>
+
+	<select id="queryList" resultMap="sysUsersRolesResult"
+		parameterType="sysUsersRoles">
+		select
+		<include refid="sysUsersRolesColumn" />
+		from sys_users_roles
+		<where>
+			<include refid="sysUsersRolesWhere" />
+		</where>
+	</select>
+
+	<select id="queryPageList" resultMap="sysUsersRolesResult"
+		parameterType="sysUsersRoles">
+		select
+		<include refid="sysUsersRolesColumn" />
+		from sys_users_roles
+		<where>
+			<include refid="sysUsersRolesWhere" />
+		</where>
+	</select>
+
+	<select id="queryCount" resultType="java.lang.Integer"
+		parameterType="sysUsersRoles">
+		select count(id) from sys_users_roles
+		<where>
+			<include refid="sysUsersRolesWhere" />
+		</where>
+	</select>
+
+	<delete id="deleteSysUsersRoles" parameterType="java.lang.Integer">
+		delete from
+		sys_users_roles where id=#{value}
+  </delete>
+
+	<insert id="insertSysUsersRoles" parameterType="sysUsersRoles">
+		insert into sys_users_roles (id
+		<if test="uid != null">
+			,uid
+			</if>
+		<if test="rid != null">
+			,rid
+			</if>
+		<if test="status != null">
+			,status
+			</if>
+		) values(#{id}
+		<if test="uid != null">
+			,#{uid}
+			</if>
+		<if test="rid != null">
+			,#{rid}
+			</if>
+		<if test="status != null">
+			,#{status}
+			</if>
+		)
+		<selectKey resultType="java.lang.Integer" order="AFTER"
+			keyProperty="id">
+			select LAST_INSERT_ID();
+    	</selectKey>
+	</insert>
+
+	<update id="updateSysUsersRoles" parameterType="sysUsersRoles">
+		update sys_users_roles set id=#{id}
+		<if test="uid != null">
+			,uid=#{uid}
+			</if>
+		<if test="rid != null">
+			,rid=#{rid}
+			</if>
+		<if test="status != null">
+			,status=#{status}
+			</if>
+		where id=#{id}
+	</update>
+
+	<select id="getRoles" resultMap="sysUsersRolesResult"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="sysUsersRolesColumn" />
+		from sys_users_roles
+		where uid=#{value}
+	</select>
+	
+	<select id="getRoleIDs" resultType="java.lang.Integer"
+		parameterType="java.lang.Integer">
+		select
+		rid
+		from sys_users_roles
+		where uid=#{value}
+	</select>
+</mapper>

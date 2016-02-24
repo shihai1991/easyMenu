@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hayes.easyMenu.dao.SysResourcesDao">
+	<resultMap id="sysResourcesResult" type="sysResources">
+		<result property="id" column="id" />
+		<result property="text" column="text" />
+		<result property="type" column="type" />
+		<result property="url" column="url" />
+		<result property="parentid" column="parentid" />
+		<result property="remark" column="remark" />
+		<result property="status" column="status" />
+		<result property="icon" column="icon" />
+	</resultMap>
+
+	<sql id="sysResourcesWhere">
+		<if test="id != null">      	
+        <![CDATA[and id like concat('%',#{id},'%') ]]>
+		</if>
+		<if test="text != null">      	
+        <![CDATA[and text like concat('%',#{text},'%') ]]>
+		</if>
+		<if test="type != null">      	
+        <![CDATA[and type like concat('%',#{type},'%') ]]>
+		</if>
+		<if test="url != null">      	
+        <![CDATA[and url like concat('%',#{url},'%') ]]>
+		</if>
+		<if test="parentid != null">      	
+        <![CDATA[and parentid like concat('%',#{parentid},'%') ]]>
+		</if>
+		<if test="remark != null">      	
+        <![CDATA[and remark like concat('%',#{remark},'%') ]]>
+		</if>
+		<if test="status != null">      	
+        <![CDATA[and status like concat('%',#{status},'%') ]]>
+		</if>
+		<if test="icon != null">      	
+        <![CDATA[and icon like concat('%',#{icon},'%') ]]>
+		</if>
+	</sql>
+
+	<sql id="sysResourcesColumn">
+		id,text,type,url,parentid,remark,status,icon
+  </sql>
+
+	<select id="loadSysResources" resultMap="sysResourcesResult"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="sysResourcesColumn" />
+		from sys_resources
+		where id=#{value}
+	</select>
+
+	<select id="queryList" resultMap="sysResourcesResult"
+		parameterType="sysResources">
+		select
+		<include refid="sysResourcesColumn" />
+		from sys_resources
+		<where>
+			<include refid="sysResourcesWhere" />
+		</where>
+	</select>
+
+	<select id="queryPageList" resultMap="sysResourcesResult"
+		parameterType="sysResources">
+		select
+		<include refid="sysResourcesColumn" />
+		from sys_resources
+		<where>
+			<include refid="sysResourcesWhere" />
+		</where>
+	</select>
+
+	<select id="queryCount" resultType="java.lang.Integer"
+		parameterType="sysResources">
+		select count(id) from sys_resources
+		<where>
+			<include refid="sysResourcesWhere" />
+		</where>
+	</select>
+
+	<delete id="deleteSysResources" parameterType="java.lang.Integer">
+		delete from
+		sys_resources where id=#{value}
+  </delete>
+
+	<insert id="insertSysResources" parameterType="sysResources">
+		insert into sys_resources (id
+		<if test="text != null">
+			,text
+			</if>
+		<if test="type != null">
+			,type
+			</if>
+		<if test="url != null">
+			,url
+			</if>
+		<if test="parentid != null">
+			,parentid
+			</if>
+		<if test="remark != null">
+			,remark
+			</if>
+		<if test="status != null">
+			,status
+			</if>
+		<if test="icon != null">
+			,icon
+			</if>
+		) values(#{id}
+		<if test="text != null">
+			,#{text}
+			</if>
+		<if test="type != null">
+			,#{type}
+			</if>
+		<if test="url != null">
+			,#{url}
+			</if>
+		<if test="parentid != null">
+			,#{parentid}
+			</if>
+		<if test="remark != null">
+			,#{remark}
+			</if>
+		<if test="status != null">
+			,#{status}
+			</if>
+		<if test="icon != null">
+			,#{icon}
+			</if>
+		)
+		<selectKey resultType="java.lang.Integer" order="AFTER"
+			keyProperty="id">
+			select LAST_INSERT_ID();
+    	</selectKey>
+	</insert>
+
+	<update id="updateSysResources" parameterType="sysResources">
+		update sys_resources set id=#{id}
+		<if test="text != null">
+			,text=#{text}
+			</if>
+		<if test="type != null">
+			,type=#{type}
+			</if>
+		<if test="url != null">
+			,url=#{url}
+			</if>
+		<if test="parentid != null">
+			,parentid=#{parentid}
+			</if>
+		<if test="remark != null">
+			,remark=#{remark}
+			</if>
+		<if test="status != null">
+			,status=#{status}
+			</if>
+		<if test="icon != null">
+			,icon=#{icon}
+			</if>
+		where id=#{id}
+	</update>
+
+</mapper>

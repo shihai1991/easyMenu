@@ -1,0 +1,22 @@
+.alert {
+	margin: 0 auto 20px;
+}
+
+.container {
+	background: url(../image/bg.jpg) no-repeat center fixed;
+	background-color: #D3DCED;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+div.form-btn {
+	margin: 0 75px;
+}
+
+div .form-btn #btn-cancel {
+	margin-left: 30px;
+}
+
+#row_form{
+	margin-top:180px;
+}

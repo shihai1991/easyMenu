@@ -1,0 +1,146 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hayes.easyMenu.dao.SysRolesResourcesDao">
+	<resultMap id="sysRolesResourcesResult" type="sysRolesResources">
+		<result property="id" column="id" />
+		<result property="sysId" column="sys_id" />
+		<result property="rid" column="rid" />
+		<result property="resid" column="resid" />
+		<result property="organizationId" column="organization_id" />
+		<result property="status" column="status" />
+	</resultMap>
+
+	<sql id="sysRolesResourcesWhere">
+		<if test="id != null">      	
+        <![CDATA[and id like concat('%',#{id},'%') ]]>
+		</if>
+		<if test="sysId != null">      	
+        <![CDATA[and sys_id like concat('%',#{sysId},'%') ]]>
+		</if>
+		<if test="rid != null">      	
+        <![CDATA[and rid like concat('%',#{rid},'%') ]]>
+		</if>
+		<if test="resid != null">      	
+        <![CDATA[and resid like concat('%',#{resid},'%') ]]>
+		</if>
+		<if test="organizationId != null">      	
+        <![CDATA[and organization_id like concat('%',#{organizationId},'%') ]]>
+		</if>
+		<if test="status != null">      	
+        <![CDATA[and status like concat('%',#{status},'%') ]]>
+		</if>
+	</sql>
+
+	<sql id="sysRolesResourcesColumn">
+		id,sys_id,rid,resid,organization_id,status
+  </sql>
+
+	<select id="loadSysRolesResources" resultMap="sysRolesResourcesResult"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="sysRolesResourcesColumn" />
+		from sys_roles_resources
+		where id=#{value}
+	</select>
+
+	<select id="queryList" resultMap="sysRolesResourcesResult"
+		parameterType="sysRolesResources">
+		select
+		<include refid="sysRolesResourcesColumn" />
+		from sys_roles_resources
+		<where>
+			<include refid="sysRolesResourcesWhere" />
+		</where>
+	</select>
+
+	<select id="queryPageList" resultMap="sysRolesResourcesResult"
+		parameterType="sysRolesResources">
+		select
+		<include refid="sysRolesResourcesColumn" />
+		from sys_roles_resources
+		<where>
+			<include refid="sysRolesResourcesWhere" />
+		</where>
+	</select>
+
+	<select id="queryCount" resultType="java.lang.Integer"
+		parameterType="sysRolesResources">
+		select count(id) from sys_roles_resources
+		<where>
+			<include refid="sysRolesResourcesWhere" />
+		</where>
+	</select>
+
+	<delete id="deleteSysRolesResources" parameterType="java.lang.Integer">
+		delete from
+		sys_roles_resources where id=#{value}
+  </delete>
+
+	<insert id="insertSysRolesResources" parameterType="sysRolesResources">
+		insert into sys_roles_resources (id
+		<if test="sysId != null">
+			,sys_id
+			</if>
+		<if test="rid != null">
+			,rid
+			</if>
+		<if test="resid != null">
+			,resid
+			</if>
+		<if test="organizationId != null">
+			,organization_id
+			</if>
+		<if test="status != null">
+			,status
+			</if>
+		) values(#{id}
+		<if test="sysId != null">
+			,#{sysId}
+			</if>
+		<if test="rid != null">
+			,#{rid}
+			</if>
+		<if test="resid != null">
+			,#{resid}
+			</if>
+		<if test="organizationId != null">
+			,#{organizationId}
+			</if>
+		<if test="status != null">
+			,#{status}
+			</if>
+		)
+		<selectKey resultType="java.lang.Integer" order="AFTER"
+			keyProperty="id">
+			select LAST_INSERT_ID();
+    	</selectKey>
+	</insert>
+
+	<update id="updateSysRolesResources" parameterType="sysRolesResources">
+		update sys_roles_resources set id=#{id}
+		<if test="sysId != null">
+			,sys_id=#{sysId}
+			</if>
+		<if test="rid != null">
+			,rid=#{rid}
+			</if>
+		<if test="resid != null">
+			,resid=#{resid}
+			</if>
+		<if test="organizationId != null">
+			,organization_id=#{organizationId}
+			</if>
+		<if test="status != null">
+			,status=#{status}
+			</if>
+		where id=#{id}
+	</update>
+
+	<select id="getResourceIDs" resultType="java.lang.Integer"
+		parameterType="java.lang.Integer">
+		select
+		resid
+		from sys_roles_resources
+		where rid = #{value}
+	</select>
+</mapper>
